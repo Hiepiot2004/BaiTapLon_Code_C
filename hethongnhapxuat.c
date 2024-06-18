@@ -506,7 +506,24 @@ void deletefile() {
         fclose(logFile);
     }
 }
-
+void laythongtinsanpham() {
+    
+    char code[100];
+    printf("Nhap ma san pham: ");
+    scanf("%s",code);
+    bool found = false;
+    for (int i = 0; i < somathang(); i++) {
+        if (strcmp(kho[i].code, code) == 0) {
+            found = true;
+            printf("Ten hang: %s\n", kho[i].tenhang);
+            printf("So luong: %d\n", kho[i].soluong);
+            printf("Gia thanh: %.2f\n", kho[i].giathanh);
+        }
+    }
+    if (!found) {
+        printf("Khong tim thay san pham voi ma nay.\n");
+    }
+}
 
 int main (){
     deletefile();
