@@ -176,6 +176,176 @@ void nhap(mathang *a){
     getchar();
     generatecode(a->tenhang,a->code);
 }
+void xuatkho(){
+    int n;
+    printf("Nhap so luong mat hang can xuat kho: ");
+    scanf("%d",&n);
+    getchar();  // Xóa ký tự newline sau khi nhập số lượng
+    for (int i = 0; i < n; i++) {
+        char code[100];
+        printf("Nhap ma san pham %d: ", i + 1);
+        fgets(code, sizeof(code), stdin);
+        code[strcspn(code, "\n")] = '\0';  // Loại bỏ ký tự newline nếu có
+        bool found = false;
+        for (int j = 0; j < somathang(); j++) {
+            if (strcmp(kho[j].code, code) == 0) {
+                found = true;
+                bool checkname = false;
+                if (j > 0 && strcmp(kho[j].code, kho[j - 1].code) == 0) {
+                    continue;
+                }
+                if (j < somathang() - 1 && strcmp(kho[j].code, kho[j + 1].code) == 0) {
+                    printf("Co nhieu mat hang cung ma code, vui long nhap day du ten mat hang: ");
+                    char name[100];
+                    fgets(name, sizeof(name), stdin);
+                    name[strcspn(name, "\n")] = '\0';
+                    for (int k = j; k < somathang(); k++) {
+                        if (strcmp(kho[k].tenhang, name) == 0 && strcmp(kho[k].code, code) == 0) {
+                            checkname = true;
+                            printf("Ten hang: %s\n", kho[k].tenhang);
+                            printf("So luong: %d\n", kho[k].soluong);
+                            printf("Gia: %.2lf\n", kho[k].giathanh);
+                            int quantity;
+                            do {
+                                printf("Nhap so luong can xuat: ");
+                                scanf("%d", &quantity);
+                                getchar();
+
+                                if (quantity > 0 && quantity <= kho[k].soluong) {
+                                    kho[k].soluong -= quantity;
+                                    printf("Da xuat %d san pham.\n", quantity);
+                                    break;
+                                } else {
+                                    printf("So luong nhap vao khong hop le hoac khong du so luong trong kho. Vui long nhap lai.\n");
+                                }
+                            } while (true);
+                            break;
+                        }
+                    }
+                    if (!checkname) {
+                        printf("Khong tim thay mat hang.\n");
+                    }
+                } else {
+                    printf("Ten hang: %s\n", kho[j].tenhang);
+                    printf("So luong: %d\n", kho[j].soluong);
+                    printf("Gia thanh: %.2lf\n", kho[j].giathanh);
+                    int quantity;
+                    do {
+                        printf("Nhap so luong can xuat: ");
+                        scanf("%d", &quantity);
+                        getchar();
+                        if (quantity > 0 && quantity <= kho[j].soluong) {
+                            kho[j].soluong -= quantity;
+                            printf("Da xuat %d san pham.\n", quantity);
+                            break;
+                        } else {
+                            printf("So luong nhap vao khong hop le hoac khong du so luong trong kho. Vui long nhap lai.\n");
+                        }
+                    } while (true);
+                }
+            }
+        }
+        if (!found) {
+            printf("Khong tim thay san pham voi ma nay. Vui long nhap lai.\n");
+            i--;
+        }
+    }
+    printf("CAP NHAT KHO HANG HIEN TAI\n");
+    hienthi(somathang());
+}
+void nhapkho(){
+    printf("So mat hang co trong kho la: %d\n", somathang());
+    printf("SO LUONG MAT HANG MUON THEM VAO KHO: ");
+    int n;
+    char code[20];
+    scanf("%d", &n);
+    int check = 0;
+    printf("________________LUA CHON NHAP KHO_________________\n");
+    printf("|  1.NHAP HANG DA CO TRONG KHO                    |\n");
+    printf("|  2.NHAP HANG MOI CHUA CO TRONG KHO              |\n");
+    printf("!_________________________________________________!\n");
+    scanf("%d", &check);
+
+    if (check == 1) {
+        for (int i = 0; i < n; i++) {
+            printf("Nhap ma san pham: ");
+            scanf("%s", code);
+            getchar(); // xóa bỏ kí tự newline khỏi bộ đệm
+
+            int found = 0;
+            for (int j = 0; j < somathang(); j++) {
+                if (strcmp(kho[j].code, code) == 0) {
+                    found = 1;
+                    int checkname = 0;
+
+                    if (j > 0 && strcmp(kho[j].code, kho[j - 1].code) == 0) {
+                        continue;
+                    }
+
+                    if (j < somathang() - 1 && strcmp(kho[j].code, kho[j + 1].code) == 0) {
+                        printf(RED "Co nhieu mat hang cung ma don hang, vui long nhap day du ten mat hang: " RESET);
+                        char Name[100];
+                        fgets(Name, sizeof(Name), stdin);
+                        Name[strcspn(Name, "\n")] = 0; // xóa bỏ kí tự newline
+
+                        for (int k = j; k < somathang(); k++) {
+                            if (strcmp(kho[k].tenhang, Name) == 0 && strcmp(kho[k].code, code) == 0) {
+                                checkname = 1;
+                                printf("Ten hang: %s\n", kho[k].tenhang);
+                                printf("So Luong: %d\n", kho[k].soluong);
+                                printf("Gia: %lf" "\n", kho[k].giathanh);
+
+                                int quantity;
+                                while (1) {
+                                    printf("Nhap so luong can them: ");
+                                    scanf("%d", &quantity);
+                                    getchar();
+                                    kho[j].soluong += quantity;
+                                    printf("Da nhap %d san pham." "\n", quantity);
+                                    break;
+                                }
+                                break;
+                            }
+                        }
+                        if (!checkname) {
+                            printf(RED "Khong tim thay mat hang voi ten da nhap." RESET "\n");
+                        }
+                    } else {
+                        printf("Ten hang: %s\n", kho[j].tenhang);
+                        printf("So luong: %d\n", kho[j].soluong);
+                        printf("Gia thanh: %lf" RESET "\n", kho[j].giathanh);
+
+                        int quantity;
+                        while (1) {
+                            printf(CYAN "Nhap so luong can nhap: ");
+                            scanf("%d", &quantity);
+                            getchar();
+                            kho[j].soluong += quantity;
+                            printf("Da nhap %d san pham." "\n", quantity);
+                            break;
+                        }
+                        break;
+                    }
+                }
+            }
+            if (!found) {
+                printf(RED "Khong tim thay san pham voi ma nay. Vui long nhap lai." RESET "\n");
+                i--;
+            }
+        }
+
+        printf(YELLOW "CAP NHAT KHO HANG HIEN TAI" RESET "\n");
+        hienthi(somathang());
+
+    } else if (check == 2) {
+        for (int i = 0; i < n; i++) {
+            printf("NHAP THONG TIN MAT HANG SO %d:\n", somathang());
+            nhap(kho);
+        }
+        printf("CAP NHAT KHO HANG HIEN TAI\n");
+        hienthi(somathang());
+    }
+}
 int main (){
     taokho();
     return 0;
