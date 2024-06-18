@@ -103,6 +103,55 @@ int cnt(int n){ //Hàm tính độ dài của 1 số để căn lề bẳng sả
     }
     return count;
 }
+// Hàm tính tổng tiền 1 mặt hàng
+long long costofwh(){
+    long long cost = 0;
+    for(int i = 0; i < somathang(); i++){
+        cost += kho[i].soluong * kho[i].giathanh;
+    }
+    return cost;
+}
+void hienthi(int n){
+   printf(CYAN);
+    printf("$_____$_______$________________________$_________________$__________________$\n");
+    printf("| STT | CODE  |    THE PRODUCT NAME    |  THE QUANTITY   |   COST/1item($)  |\n");
+
+    for (int i = 0; i < n; i++) {
+        if (strlen(kho[i].tenhang) == 0) continue;  // Chỉ hiển thị mặt hàng có tên
+
+        if (i < 10) {
+            printf("|  %d  |", i);
+        } else if (i >= 10 && i < 100) {
+            printf("|  %d |", i);
+        } else if (i == 100) {
+            printf("|%d|", i);
+        }
+
+        int ma = strlen(kho[i].code);
+        printf(" %s%*s|", kho[i].code, 6 - ma, "");
+
+        int a = strlen(kho[i].tenhang);
+        printf("%s%*s|", kho[i].tenhang, 24 - a, "");
+
+        int b = cnt(kho[i].soluong);
+        printf("%d%*s|", kho[i].soluong, 18 - b, "");
+
+        char gia_str[20];
+        sprintf(gia_str, "%.2f", kho[i].giathanh);
+        int c = strlen(gia_str);
+        printf("%s%*s|\n", gia_str, 18 - c, "");
+    }
+
+    printf("$-----$-------$------------------------$-----------------$------------------$\n");
+    printf(RESET);
+    printf(YELLOW "Tong so tien hang co trong kho bay gio la: %.2lld" RESET "\n\n", costofwh());
+
+    for (int i = 0; i < n; i++) {
+        if (kho[i].soluong < 20 && strlen(kho[i].tenhang) != 0) {
+            printf(RED "INFORM: Mat hang '%s' trong kho qua it de duy tri nhu cau\n" RESET, kho[i].tenhang);
+        }
+    }
+}
 int main (){
     taokho();
     return 0;
