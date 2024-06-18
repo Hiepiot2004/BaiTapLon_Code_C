@@ -596,7 +596,75 @@ void xoakho(){
     printf("CAP NHAT KHO HANG HIEN TAI\n");
     hienthi(somathang());
 }
+void dieuchinhgia(){
+ int n;
+    printf("Nhap so luong mat hang can dieu chinh gia: ");
+    scanf("%d", &n);
+    getchar(); // Xóa bộ nhớ đệm
+    for (int i = 0; i < n; ++i) {
+        char code[50];
+        printf("Nhap ma san pham %d: ", i + 1);
+        fgets(code, sizeof(code), stdin);
+        code[strcspn(code, "\n")] = '\0'; // Xóa ký tự xuống dòng cuối chuỗi
 
+        int found = 0;
+
+        for (int j = 0; j < somathang(); ++j) {
+            if (strcmp(kho[j].code, code) == 0) {
+                found = 1;
+
+                
+                if (j < somathang() - 1 && strcmp(kho[j].code, kho[j + 1].code) == 0) {
+                    printf("Co nhieu mat hang cung ma don hang, nhap ten day du cua mat hang: ");
+                    char Name[100];
+                    fgets(Name, sizeof(Name), stdin);
+                    Name[strcspn(Name, "\n")] = '\0'; // Xóa ký tự xuống dòng cuối chuỗi
+
+                    for (int k = j; k < somathang(); ++k) {
+                        if (strcmp(kho[k].tenhang, Name) == 0 && strcmp(kho[k].code, code) == 0) {
+                           
+                            printf("Ten hang: %s\n", kho[k].tenhang);
+                            printf("So Luong: %d\n", kho[k].soluong);
+                            printf("Gia: %.2lf\n", kho[k].giathanh); // Đổi %lf thành %.2lf để làm tròn đến 2 chữ số sau dấu thập phân
+
+                            printf("Nhap gia moi: ");
+                            double giamoi;
+                            scanf("%lf", &giamoi); // Đổi %d thành %lf vì giathanh là double
+                            getchar(); // Xóa bộ nhớ đệm
+                            
+                            kho[k].giathanh = giamoi;
+                            printf("Gia moi duoc cap nhat.\n");
+                            break;
+                        }
+                    }
+                } else {
+                    printf("Ten hang: %s\n", kho[j].tenhang);
+                    printf("So luong: %d\n", kho[j].soluong);
+                    printf("Gia thanh: %.2lf\n", kho[j].giathanh); // Đổi %lf thành %.2lf để làm tròn đến 2 chữ số sau dấu thập phân
+
+                    printf("Nhap gia moi: ");
+                    double giamoi;
+                    scanf("%lf", &giamoi); // Đổi %d thành %lf vì giathanh là double
+                    getchar();
+                    
+                    kho[j].giathanh = giamoi;
+                    printf("Gia moi duoc cap nhat.\n");
+                }
+
+                break; 
+            }
+        }
+
+        if (!found) {
+            printf("Khong tim thay san pham voi ma nay. Vui long nhap lai.\n");
+            --i; 
+        }
+    }
+
+    printf("CAP NHAT KHO HANG HIEN TAI\n");
+    // Gọi hàm hienthi để hiển thị thông tin kho hàng
+    hienthi(somathang());
+}
 int main (){
     deletefile();
     char timeMsg[100];
