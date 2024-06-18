@@ -524,6 +524,78 @@ void laythongtinsanpham() {
         printf("Khong tim thay san pham voi ma nay.\n");
     }
 }
+void initialize_empty_item(mathang *item) {
+    strcpy(item->tenhang, "");
+    item->soluong = 0;
+    item->giathanh = 0;
+    strcpy(item->code, "");
+}
+void xoakho(){
+  char code[100];
+    int n;
+
+    printf("Nhap so luong mat hang xoa khoi kho: ");
+    scanf("%d", &n);
+    getchar(); // Đọc ký tự newline còn lại
+
+    for (int i = 0; i < n; i++) {
+        printf("Nhap ma san pham %d: ", i + 1);
+        fgets(code, sizeof(code), stdin);
+        code[strcspn(code, "\n")] = '\0'; // Loại bỏ ký tự newline
+
+        bool found = false;
+        for (int j = 0; j < somathang(); j++) {
+            if (strcmp(kho[j].code, code) == 0) {
+                found = true;
+
+                bool checkname = false;
+                if (j < somathang() - 1 && strcmp(kho[j].code, kho[j + 1].code) == 0) {
+                    printf("Co nhieu mat hang cung ma don hang, vui long nhap day du ten mat hang: ");
+                    char Name[100];
+                    fgets(Name, sizeof(Name), stdin);
+                    Name[strcspn(Name, "\n")] = '\0'; // Loại bỏ ký tự newline
+
+                    for (int k = j; k < somathang(); k++) {
+                        if (strcmp(kho[k].tenhang, Name) == 0 && strcmp(kho[k].code, code) == 0) {
+                            checkname = true;
+                            printf("Ten hang: %s\n", kho[k].tenhang);
+                            printf("So Luong: %d\n", kho[k].soluong);
+                            printf("Gia: %lf\n", kho[k].giathanh);
+                            printf("Da xoa san pham %s khoi kho.\n", kho[k].tenhang);
+
+                            for (int l = k; l < somathang() - 1; ++l) {
+                                kho[l] = kho[l + 1];
+                            }
+
+                            initialize_empty_item(&kho[somathang() - 1]);
+                            break;
+                        }
+                    }
+                    if (!checkname) {
+                        printf("Khong tim thay mat hang voi ten da nhap.\n");
+                    }
+                } else {
+                    printf("Ten hang: %s\n", kho[j].tenhang);
+                    printf("So luong: %d\n", kho[j].soluong);
+                    printf("Gia thanh: %lf\n", kho[j].giathanh);
+                    for (int l = j; l < somathang() - 1; ++l) {
+                        kho[l] = kho[l + 1];
+                    }
+
+                    initialize_empty_item(&kho[somathang() - 1]);
+                    break;
+                }
+            }
+        }
+        if (!found) {
+            printf("Khong tim thay san pham voi ma nay. Vui long nhap lai.\n");
+            i--; // Nhập lại khi không tìm thấy sản phẩm
+        }
+    }
+
+    printf("CAP NHAT KHO HANG HIEN TAI\n");
+    hienthi(somathang());
+}
 
 int main (){
     deletefile();
