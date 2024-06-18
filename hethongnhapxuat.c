@@ -442,6 +442,71 @@ void sapxep(mathang *kho,int n){
     }
    }
 }
+void baomat() {
+    char a[] = "alester";
+    char b[] = "top1thaibinh";
+    printf("LOG IN(Use the English keyboard to type.)\n");
+    while(1) {
+        printf("User name:");
+        char tk[100];
+        scanf("%s", tk);
+        if(strcmp(a, tk) != 0) {
+            printf("Wrong account, please enter again.\n");
+            continue;
+        }
+        else {
+            printf("Password:");
+            char mk[100];
+            scanf("%s", mk);
+            if(strcmp(b, mk) != 0) {
+                printf("Wrong password, please re-enter.\n");
+                continue;
+            }
+            else {
+                break;
+            }
+        }
+    }
+}
+void clearLogFile() {
+    FILE *logFile = fopen("log.txt", "w");
+    if (logFile != NULL) {
+        fclose(logFile);
+    } else {
+        printf("Unable to open log file.\n");
+    }
+}
+void timee(char* timeStr, int maxSize) {
+    time_t now = time(0);
+    struct tm *ltm = localtime(&now);
+
+    snprintf(timeStr, maxSize, "Ngay: %02d/%02d/%04d Luc: %02d:%02d:%02d",
+             ltm->tm_mday,
+             ltm->tm_mon + 1,
+             ltm->tm_year + 1900,
+             ltm->tm_hour + 1,
+             ltm->tm_min + 1,
+             ltm->tm_sec + 1);
+}
+void showlog() {
+    FILE *logFile = fopen("log.txt", "r");
+    if (logFile != NULL) {
+        char line[256];
+        while (fgets(line, sizeof(line), logFile)) {
+            printf("%s", line);
+        }
+        fclose(logFile);
+    } else {
+        printf("Unable to open log file.\n");
+    }
+}
+void deletefile() {
+    FILE *logFile = fopen("log.txt", "w");
+    if (logFile != NULL) {
+        fclose(logFile);
+    }
+}
+
 
 int main (){
     deletefile();
