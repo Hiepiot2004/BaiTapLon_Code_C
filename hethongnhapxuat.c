@@ -152,6 +152,30 @@ void hienthi(int n){
         }
     }
 }
+void logOperation(const char* operation) {
+    FILE* logFile = fopen("log.txt", "a");
+    if (logFile != NULL) {
+        fprintf(logFile, "%s\n", operation);
+        fclose(logFile);
+    }
+}
+void nhap(mathang *a){
+// Xóa bộ đệm đầu vào để tránh vấn đề với hàm fgets
+    while(getchar() != '\n');
+    printf("Nhap ten loai mat hang: ");
+    fgets(a->tenhang, 100, stdin);
+    // Loại bỏ ký tự newline nếu có
+    size_t len = strlen(a->tenhang);
+    if (len > 0 && a->tenhang[len-1] == '\n') {
+        a->tenhang[len-1] = '\0';
+    }
+    printf("Nhap so luong san pham nhap vao kho: ");
+    scanf("%d", &(a->soluong));
+    printf("Nhap gia tien tren mot san pham: ");
+    scanf("%lf", &(a->giathanh));
+    getchar();
+    generatecode(a->tenhang,a->code);
+}
 int main (){
     taokho();
     return 0;
