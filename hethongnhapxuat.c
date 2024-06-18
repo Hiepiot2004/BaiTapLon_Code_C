@@ -1,38 +1,28 @@
 #include <stdio.h>
 #include <string.h>
-<<<<<<< HEAD
 #include <stdio.h>
 #include <string.h>
-=======
->>>>>>> 7dfe74da9f5dcac9291b11504172cb884be86bf6
 #include <stdbool.h>
 #include <ctype.h>
 #include <stdlib.h>
 #include <time.h>
 
-<<<<<<< HEAD
-
-=======
     #define CYAN "\x1B[36m"
     #define YELLOW "\x1B[33m"
     #define RED "\x1B[31m"
     #define RESET "\x1B[0m"
 
 // Định nghĩa cấu trúc mathang
->>>>>>> 7dfe74da9f5dcac9291b11504172cb884be86bf6
 typedef struct {
     char tenhang[100];
     int soluong;
     double giathanh;
     char code[100];
-<<<<<<< HEAD
 } mathang;typedef struct {
     char tenhang[100];
     int soluong;
     double giathanh;
     char code[100];
-=======
->>>>>>> 7dfe74da9f5dcac9291b11504172cb884be86bf6
 } mathang;
 void generatecode(const char* name, char* code){ //Hàm tự tạo mã code là chữ cái đầu của tên mặt hàng
     bool isNewWord = true; 
@@ -49,10 +39,6 @@ void generatecode(const char* name, char* code){ //Hàm tự tạo mã code là 
     }
     code[codeindex] = '\0';
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> 7dfe74da9f5dcac9291b11504172cb884be86bf6
 mathang kho[100];
 int demhang=0;
 void taokho() {
@@ -112,10 +98,6 @@ void taokho() {
 int somathang(){
     return demhang;
 }
-<<<<<<< HEAD
-int main(){
-    printf("Xin chao cac ban");
-=======
 int cnt(int n){ //Hàm tính độ dài của 1 số để căn lề bẳng sản phẩm
     int count = 1;
     if(n == 0){
@@ -183,7 +165,7 @@ void logOperation(const char* operation) {
         fclose(logFile);
     }
 }
-void nhap(mathang *a){
+void nhap(mathang *a,int n){
 // Xóa bộ đệm đầu vào để tránh vấn đề với hàm fgets
     while(getchar() != '\n');
     printf("Nhap ten loai mat hang: ");
@@ -193,12 +175,17 @@ void nhap(mathang *a){
     if (len > 0 && a->tenhang[len-1] == '\n') {
         a->tenhang[len-1] = '\0';
     }
+
     printf("Nhap so luong san pham nhap vao kho: ");
     scanf("%d", &(a->soluong));
+    
     printf("Nhap gia tien tren mot san pham: ");
     scanf("%lf", &(a->giathanh));
     getchar();
     generatecode(a->tenhang,a->code);
+    char buffer[256];
+    snprintf(buffer, sizeof(buffer),"       NHAP    Mat hang: %s      So luong: %d       Gia tien: %.2lf", kho[n].tenhang, kho[n].soluong, kho[n].giathanh);
+    logOperation(buffer);
 }
 void xuatkho(){
     int n;
@@ -278,7 +265,7 @@ void xuatkho(){
     hienthi(somathang());
 }
 void nhapkho(){
-    printf("So mat hang co trong kho la: %d\n", somathang());
+        printf("So mat hang co trong kho la: %d\n", somathang());
     printf("SO LUONG MAT HANG MUON THEM VAO KHO: ");
     int n;
     char code[20];
@@ -307,7 +294,7 @@ void nhapkho(){
                     }
 
                     if (j < somathang() - 1 && strcmp(kho[j].code, kho[j + 1].code) == 0) {
-                        printf(RED "Co nhieu mat hang cung ma don hang, vui long nhap day du ten mat hang: " RESET);
+                        printf("Co nhieu mat hang cung ma don hang, vui long nhap day du ten mat hang: ");
                         char Name[100];
                         fgets(Name, sizeof(Name), stdin);
                         Name[strcspn(Name, "\n")] = 0; // xóa bỏ kí tự newline
@@ -332,16 +319,16 @@ void nhapkho(){
                             }
                         }
                         if (!checkname) {
-                            printf(RED "Khong tim thay mat hang voi ten da nhap." RESET "\n");
+                            printf("Khong tim thay mat hang voi ten da nhap.\n");
                         }
                     } else {
                         printf("Ten hang: %s\n", kho[j].tenhang);
                         printf("So luong: %d\n", kho[j].soluong);
-                        printf("Gia thanh: %lf" RESET "\n", kho[j].giathanh);
+                        printf("Gia thanh: %lf\n", kho[j].giathanh);
 
                         int quantity;
                         while (1) {
-                            printf(CYAN "Nhap so luong can nhap: ");
+                            printf("Nhap so luong can nhap: ");
                             scanf("%d", &quantity);
                             getchar();
                             kho[j].soluong += quantity;
@@ -353,25 +340,173 @@ void nhapkho(){
                 }
             }
             if (!found) {
-                printf(RED "Khong tim thay san pham voi ma nay. Vui long nhap lai." RESET "\n");
+                printf("Khong tim thay san pham voi ma nay. Vui long nhap lai.\n");
                 i--;
             }
         }
 
-        printf(YELLOW "CAP NHAT KHO HANG HIEN TAI" RESET "\n");
+        printf("CAP NHAT KHO HANG HIEN TAI\n");
         hienthi(somathang());
 
     } else if (check == 2) {
         for (int i = 0; i < n; i++) {
-            printf("NHAP THONG TIN MAT HANG SO %d:\n", somathang());
-            nhap(kho);
+            printf("NHAP THONG TIN MAT HANG SO %d:\n", somathang() + i);
+            nhap(&kho[demhang + i],n);
         }
+        demhang+=n;
         printf("CAP NHAT KHO HANG HIEN TAI\n");
         hienthi(somathang());
-    }
 }
+}
+void sapxep(mathang *kho,int n){
+    int luachon;
+    printf("Sap xep san pham\n");
+    printf("Chon 1: xap xep theo gia thanh\n");
+    printf("Chon 2: xap sep theo so luong\n");
+    while (true){
+    scanf("%d",&luachon);
+    if(luachon==1){
+        int chon;
+        printf("1. Tang dan\n");
+        printf("2. Giam dan\n");
+        while (true){
+        scanf("%d",&chon);
+        if(chon==1){
+            for(int i=0;i<n;i++){
+                for(int j=i+1;j<n;j++){
+                    if(kho[i].giathanh>kho[j].giathanh){
+                        mathang temp=kho[i];
+                        kho[i]=kho[j];
+                        kho[j]=temp;
+                    }
+                }
+            }
+            hienthi(n);
+            break;
+        }
+        if(chon==2){
+             for(int i=0;i<n;i++){
+                for(int j=i+1;j<n;j++){
+                    if(kho[i].giathanh<kho[j].giathanh){
+                        mathang temp=kho[i];
+                        kho[i]=kho[j];
+                        kho[j]=temp;
+                    }
+                }
+            }
+            hienthi(n);
+            break;
+        }
+        else printf("Lua chon khong hop le vui long nhap lai\n");
+        }
+        break;
+    }
+    if(luachon==2){
+        int chon;
+        printf("1. Tang dan\n");
+        printf("2. Giam dan\n");
+        while(true){
+        scanf("%d",&chon);
+        if(chon==1){
+             for(int i=0;i<n;i++){
+                for(int j=i+1;j<n;j++){
+                    if(kho[i].soluong>kho[j].soluong){
+                        mathang temp=kho[i];
+                        kho[i]=kho[j];
+                        kho[j]=temp;
+                    }
+                }
+            }
+            hienthi(n);
+            break;
+        }
+        if(chon==2){
+             for(int i=0;i<n;i++){
+                for(int j=i+1;j<n;j++){
+                    if(kho[i].soluong<kho[j].soluong){
+                        mathang temp=kho[i];
+                        kho[i]=kho[j];
+                        kho[j]=temp;
+                    }
+                }
+            }
+            hienthi(n);
+            break;
+        }
+        else printf("Lựa chọn không hợp lệ vui lòng nhập lại\n");
+        break;
+        }
+    }
+    else {
+        printf("Lựa chọn không hợp lệ vui lòng nhập lại\n");
+    }
+   }
+}
+
 int main (){
+    deletefile();
+    char timeMsg[100];
+    timee(timeMsg,sizeof(timeMsg));
+    logOperation(timeMsg);
+    logOperation("     Dang nhap vao he thong");
     taokho();
->>>>>>> 7dfe74da9f5dcac9291b11504172cb884be86bf6
+     while(1){
+        printf("______WELCOME TO THE WAREHOUSE MANAGEMENT SYSTEM______\n");
+        printf("|  1.XEM THONG TIN MAT HANG TON KHO                  |\n");
+        printf("|  2.XUAT KHO                                        |\n");
+        printf("|  3.NHAP HANG VAO KHO                               |\n");
+        printf("|  4.SAP XEP THEO YEU CAU                            |\n");
+        printf("|  5.KIEM TRA HANG THEO MA SAN PHAM                  |\n");
+        printf("|  6.XEM LICH SU XUAT NHAP HANG                      |\n");
+        printf("|  7.XOA HANG TRONG KHO                              |\n");
+        printf("|  8.DIEU CHINH GIA CAC MAT HANG                     |\n");
+        printf("|  0.EXIT THE SYSTEM.                                |\n");
+        printf("!____________________________________________________!\n");
+        printf("SELECT OPTION: ");
+        int lc;
+        scanf("%d",&lc);
+        if(lc == 1){
+            hienthi(somathang());
+        }
+        else if(lc == 2){
+            char timeMsg[100];
+            timee(timeMsg,sizeof(timeMsg));
+            logOperation(timeMsg);
+            xuatkho();
+        }
+        else if(lc == 3){
+            char timeMsg[100];
+            timee(timeMsg,sizeof(timeMsg));
+            logOperation(timeMsg);
+            nhapkho();
+        }
+        else if(lc == 4){
+            sapxep(kho,somathang());
+        }
+        else if(lc == 5){
+            laythongtinsanpham();
+        }
+        else if(lc==6){
+            printf("Lich su nhap & xuat hang trong ngay hom nay\n");
+            showlog();
+            printf("\n");
+        }
+        else if(lc==7){
+            xoakho();
+        }
+        else if(lc==8){
+            dieuchinhgia();
+        }
+        else if(lc==0){
+            deletefile();
+            printf("***** HE THONG DA DONG *****");
+            return 0;
+        }
+        else {
+            printf("Lua chon khong họp le vui long nhap lai ");
+            return 0;
+
+        }
+    }
     return 0;
 }
