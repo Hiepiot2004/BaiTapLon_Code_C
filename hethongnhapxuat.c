@@ -6,19 +6,8 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <time.h>
-
-    #define CYAN "\x1B[36m"
-    #define YELLOW "\x1B[33m"
-    #define RED "\x1B[31m"
-    #define RESET "\x1B[0m"
-
 // Định nghĩa cấu trúc mathang
 typedef struct {
-    char tenhang[100];
-    int soluong;
-    double giathanh;
-    char code[100];
-} mathang;typedef struct {
     char tenhang[100];
     int soluong;
     double giathanh;
@@ -118,7 +107,6 @@ long long costofwh(){
     return cost;
 }
 void hienthi(int n){
-   printf(CYAN);
     printf("$_____$_______$________________________$_________________$__________________$\n");
     printf("| STT | CODE  |    THE PRODUCT NAME    |  THE QUANTITY   |   COST/1item($)  |\n");
 
@@ -149,12 +137,11 @@ void hienthi(int n){
     }
 
     printf("$-----$-------$------------------------$-----------------$------------------$\n");
-    printf(RESET);
-    printf(YELLOW "Tong so tien hang co trong kho bay gio la: %.2lld" RESET "\n\n", costofwh());
+    printf("Tong so tien hang co trong kho bay gio la: %.2lld" "\n\n", costofwh());
 
     for (int i = 0; i < n; i++) {
         if (kho[i].soluong < 20 && strlen(kho[i].tenhang) != 0) {
-            printf(RED "INFORM: Mat hang '%s' trong kho qua it de duy tri nhu cau\n" RESET, kho[i].tenhang);
+            printf("INFORM: Mat hang '%s' trong kho qua it de duy tri nhu cau\n", kho[i].tenhang);
         }
     }
 }
@@ -443,8 +430,8 @@ void sapxep(mathang *kho,int n){
    }
 }
 void baomat() {
-    char a[] = "alester";
-    char b[] = "top1thaibinh";
+    char a[] = "e9vippro";
+    char b[] = "e987654321";
     printf("LOG IN(Use the English keyboard to type.)\n");
     while(1) {
         printf("User name:");
@@ -666,6 +653,7 @@ void dieuchinhgia(){
     hienthi(somathang());
 }
 int main (){
+    baomat();
     deletefile();
     char timeMsg[100];
     timee(timeMsg,sizeof(timeMsg));
